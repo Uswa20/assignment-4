@@ -5,6 +5,7 @@ import {
   createProxyMiddleware,
   responseInterceptor,
 } from "http-proxy-middleware";
+import { cacheMiddleware } from "./cache";
 
 const GEOCODING_ENDPOINT = "https://geocoding.geo.census.gov";
 const WEATHER_GOV_ENDPOINT = "https://api.weather.gov/";
@@ -16,6 +17,7 @@ app.use(morgan("dev"));
 // proxy localhost:3000/address to the onelineaddress endpoint
 app.use(
   "/address",
+  cacheMiddleware,
   createProxyMiddleware({
     target: GEOCODING_ENDPOINT,
     changeOrigin: true,
@@ -28,6 +30,7 @@ app.use(
 // proxy localhost:3000/weather/... to api.weather.gov
 app.use(
   "/weather",
+  cacheMiddleware,
   createProxyMiddleware({
     target: WEATHER_GOV_ENDPOINT,
     changeOrigin: true,
