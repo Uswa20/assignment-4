@@ -46,11 +46,9 @@ app.use(
     onProxyRes: responseInterceptor((responseBuffer, proxyRes) => {
       if (proxyRes.headers["content-type"] === "application/json") {
         const response = responseBuffer.toString("utf-8");
+        const re = /https:\/\/api.weather.gov/g;
         return Promise.resolve(
-          response.replaceAll(
-            "https://api.weather.gov/",
-            "http://localhost:3000/weather/"
-          )
+          response.replace(re, "http://localhost:3000/weather/")
         );
       }
       return Promise.resolve(responseBuffer);

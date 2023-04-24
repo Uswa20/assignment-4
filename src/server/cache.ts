@@ -14,7 +14,7 @@ export const cacheMiddleware = (
   if (cacheValue === undefined) {
     // need to override the send function to first cache the result
     const originalSend = res.send;
-    res.send = (body?: any) => {
+    res.send = (body?: unknown) => {
       if (body) {
         console.log(`Caching ${key}`);
         cache.set(key, body);

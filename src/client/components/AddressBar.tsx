@@ -4,7 +4,7 @@ import { FormEvent } from "react";
 export default function AddressBar({
   onAddressSubmit,
 }: {
-  onAddressSubmit: (address: string) => void;
+  onAddressSubmit: (address: string) => Promise<void>;
 }) {
   function submitHandler(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -14,7 +14,7 @@ export default function AddressBar({
     const { address } = Object.fromEntries(formData.entries());
     // NOTE: address has type string | File and we should really
     // check that it is a string and throw an error otherwise
-    onAddressSubmit(address as string);
+    onAddressSubmit(address as string).catch(() => alert("Address not found!"));
   }
 
   // See https://react.dev/reference/react-dom/components/input#reading-the-input-values-when-submitting-a-form
