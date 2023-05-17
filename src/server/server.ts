@@ -14,6 +14,20 @@ const app = express();
 
 app.use(morgan("dev"));
 
+// Add CORS middleware
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, DELETE"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With, Content-Type, Authorization"
+  );
+  next();
+});
+
 // proxy localhost:3000/address to the onelineaddress endpoint
 app.use(
   "/address",
